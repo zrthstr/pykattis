@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import sys
+
+def const(i):
+    return [int(i),1,["x"]]
+
+def solve(line):
+    a = list(map(const, line.split()))
+    if len(a) == 1: ## #let see if we can get rid of this later
+        return 1, 1
+
+    result = [[len(a)]]
+    print("XXXXXXXXXX",result)
+
+    #print()
+    for i, (value, score, hist) in enumerate(a[::-1]):
+        tmp_result = [len(line)]
+        #a[-i-1][2][0] = len(line)
+        #print(a)
+        #if i == 5:
+        #    raise ddd
+        #print("[*] Looking at :", value, score)
+
+        if i == 0: # last allways has a value of 1 #lets see if we can get rid of this later
+            #a[-i-1][2][0]=len(line)-1
+            continue
+
+        for pi, (pvalue, pscore, phist) in enumerate(a[-1:-i-1:-1]):
+            if value >= pvalue:
+                continue
+            if score <= pscore:
+                #print("set to :", pscore+1)
+                a[-i-1][1] = pscore +1
+                print("pppiii", pi)
+                tmp_result=[len(a)-i] + result[pi]
+
+        result.append(tmp_result)
+
+        #a[-i-1][2].extend( a[best][2]  )
+        #a[-i-1][2] = list(set((a[-i-1][2])))
+        #print(a[::-1])
+        #print("")
+
+    print("RRRR",result)
+
+    print("{>}",a)
+    result = [e[1] for e in a][::-1]
+    lengh = len(result)
+    return lengh,result
+
+
+source = map(str.rstrip, sys.stdin)
+#for line in map(str.rstrip, sys.stdin):
+for c in source:
+    line = source.__next__()
+    print()
+    print("line:", line)
+    c, solution = solve(line)
+    print(c, solution)
