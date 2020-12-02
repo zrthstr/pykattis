@@ -3,34 +3,34 @@
 import sys
 
 def const(i):
-    return [int(i),1]
+    return [int(i),set()]
 
 def solve(line):
-    a = list(map(const, line.split()))
-    a = a[::-1]
+    a = list(map(const, line.split()))[::-1]
+    for i, (value, _) in enumerate(a):
+        a[i][1] = set([len(a) - i -1 ])
 
-    if len(a) == 1: ## #let see if we can get rid of this later
-        return 1, 1
+        tmp = set()
 
-    for i, (value, score) in enumerate(a):
-        if i == 0: # last allways has a value of 1 #lets see if we can get rid of this later
-            continue
+
+        print("looking for|in", value  , a[:i], "with ai->", a[i][1])
 
         for pi, (pvalue, pscore) in enumerate(a[:i]):
-            if value >= pvalue:
+            #if value >= pvalue:
+            if a[i][0] >= pvalue:
                 continue
-            if score <= pscore:
-                a[i][1] = pscore +1
+            if len(a[i][1]) <= len(pscore):
+                #a[i][1] = pscore | a[i][1]
+                tmp = pscore
+
+        a[i][1] = tmp | a[i][1]
 
 
-    a = a[::-1]
-
-    print(a)
-
-    #result = [e[1] for e in a][::-1]
-    #result = [e[1] for e in a]
-
-    return len(a),a
+    print(a[::-1])
+    a = [sorted(m) for n,m in a ][::-1]
+    aa = max(a, key=len)
+    result = len(aa), aa
+    return result
 
 
 source = map(str.rstrip, sys.stdin)
@@ -38,6 +38,6 @@ source = map(str.rstrip, sys.stdin)
 for c in source:
     line = source.__next__()
     print()
-    #print("line:", line)
+    print("line:", line)
     c, solution = solve(line)
-    #print(c, solution)
+    print(f"{c}\n{solution}")
