@@ -5,32 +5,29 @@ import sys
 def const(i):
     return [int(i),set()]
 
+
 def solve(line):
     a = list(map(const, line.split()))[::-1]
-    for i, (value, _) in enumerate(a):
-        a[i][1] = set([len(a) - i -1 ])
 
-        tmp = set()
+    for i in range(len(a)): # make sure this dosent include itself
+        a[i][1] = set([len(a)-i-1])
+        try:
+            print(f"looking for mini for {a[i]} in :",a[:i] )
+            mini = min(aa for aa in a[:i] if aa[0] > a[i][0])
+        except:
+            mini = [-1000,set()]
 
-
-        print("looking for|in", value  , a[:i], "with ai->", a[i][1])
-
-        for pi, (pvalue, pscore) in enumerate(a[:i]):
-            #if value >= pvalue:
-            if a[i][0] >= pvalue:
-                continue
-            if len(a[i][1]) <= len(pscore):
-                #a[i][1] = pscore | a[i][1]
-                tmp = pscore
-
-        a[i][1] = tmp | a[i][1]
+        print("mini", mini)
+        print(mini[1] | a[i][1])
+        a[i][1] = mini[1] | a[i][1]
 
 
     print(a[::-1])
-    a = [sorted(m) for n,m in a ][::-1]
-    aa = max(a, key=len)
-    result = len(aa), aa
-    return result
+    #a = [sorted(m) for n,m in a ][::-1]
+    #aa = max(a, key=len)
+    #result = len(aa), aa
+    result = a[::-1]
+    return len(a), result
 
 
 source = map(str.rstrip, sys.stdin)
