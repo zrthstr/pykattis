@@ -10,16 +10,24 @@ def solve(line):
     a = list(map(const, line.split()))[::-1]
 
     for i in range(len(a)): # make sure this dosent include itself
+        #if i == 5:
+        #    break
+
         a[i][1] = set([len(a)-i-1])
         try:
             print(f"looking for mini for {a[i]} in :",a[:i] )
-            mini = min(aa for aa in a[:i] if aa[0] > a[i][0])
+            #mini = min(aa for aa in a[:i] if aa[0] > a[i][0])
+            #if i == 4:
+            #    print(sorted([aa for aa in a[:i] if aa[0] > a[i][0]], key=lambda x:len(x[1])))
+            mini = sorted([aa for aa in a[:i] if aa[0] > a[i][0]], key=lambda x:len(x[1]))[-1]
         except:
             mini = [-1000,set()]
 
         print("mini", mini)
         print(mini[1] | a[i][1])
         a[i][1] = mini[1] | a[i][1]
+        print("set too:", a[i][1])
+        print()
 
 
     print(a[::-1])
